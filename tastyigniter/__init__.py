@@ -69,6 +69,17 @@ class TastyIgniter:
         response = await self.get_response(REQUEST_URL)
         return response.get("data")
 
+    async def get_enabled_locations(def):
+        """Return only restaurants which are enabled."""
+        locations = await get_locations()
+        enabled_locations = []
+
+        for location in locations:
+            if location["location_status"]:
+                enabled_locations.append(location)
+
+        return enabled_locations
+
     async def get_orders(self):
         """Retrieve a list of orders."""
         REQUEST_URL = self.api_url + "orders"

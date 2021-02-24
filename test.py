@@ -13,6 +13,9 @@ async def main():
     response = await api.get_locations()
     save_file("locations",str(response))
 
+    response = await api.get_enabled_locations()
+    save_file("enabled_locations", str(response))
+
     response = await api.get_orders()
     save_file("orders",str(response))
 

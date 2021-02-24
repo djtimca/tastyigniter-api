@@ -67,7 +67,8 @@ class TastyIgniter:
     async def get_locations(self):
         """Retrieve a list of locations."""
         REQUEST_URL = self.api_url + "locations"
-        response = await self.get_response(REQUEST_URL)
+        params = {"pageLimit":1000}
+        response = await self.get_response(REQUEST_URL, params)
         return response.get("data")
 
     async def get_enabled_locations(self):

@@ -41,7 +41,7 @@ class TastyIgniter:
 
         self.api_key = response.get("token")
 
-    async def get_response(self, request_url: str):
+    async def get_response(self, request_url: str, params:dict=None):
         """Get and return JSON payload from TastyIgniter endpoint."""
         if not self.api_key:
             await self.authenticate_user()
@@ -56,6 +56,7 @@ class TastyIgniter:
             async with self.session.get(
                 request_url,
                 headers=headers,
+                params=params,
             ) as resp:
                 response = await resp.json()
         except aiohttp.ClientConnectionError as error:
@@ -69,9 +70,9 @@ class TastyIgniter:
         response = await self.get_response(REQUEST_URL)
         return response.get("data")
 
-    async def get_enabled_locations(def):
+    async def get_enabled_locations(self):
         """Return only restaurants which are enabled."""
-        locations = await get_locations()
+        locations = await self.get_locations()
         enabled_locations = []
 
         for location in locations:
@@ -83,7 +84,11 @@ class TastyIgniter:
     async def get_orders(self):
         """Retrieve a list of orders."""
         REQUEST_URL = self.api_url + "orders"
-        response = await self.get_response(REQUEST_URL)
+        params = {
+            "pageLimit": 10,
+            "sort": "date_added desc",
+        }
+        response = await self.get_response(REQUEST_URL, params)
         return response.get("data")
 
     async def get_received_orders(self):

@@ -30,7 +30,7 @@ class TastyIgniter:
         try:
             async with self.session.post(
                 REQUEST_URL,
-                params=params,
+                data=params,
             ) as resp:
                 response = await resp.json()
         except aiohttp.ClientConnectionError as error:
